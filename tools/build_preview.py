@@ -33,18 +33,25 @@ def data_uri(path: Path) -> str:
     return f"data:{mime};base64," + base64.b64encode(raw).decode("ascii")
 
 
-def inline_assets(text: str) -> str:
-    """Rewrite every local asset path in a string to a data URI."""
+def inline_assets(text: str, base_dir: Path = ROOT) -> str:
+    """Rewrite every local asset path in a string to a data URI.
+
+    Paths are matched whether they're root-relative (`assets/img/...`, as used
+    from HTML and JS) or file-relative (`../img/...`, as CSS must use since a
+    stylesheet resolves `url()` against its own folder, not the page's). Each
+    match resolves against `base_dir` -- pass the file's own directory when
+    inlining a CSS/JS file so file-relative paths land correctly.
+    """
     def sub(m):
         quote, rel = m.group(1), m.group(2)
-        path = ROOT / rel
+        path = (base_dir / rel).resolve()
         if not path.is_file():
             print(f"  ! missing {rel}", file=sys.stderr)
             return m.group(0)
         return f"{quote}{data_uri(path)}{quote}"
 
-    return re.sub(r"(['\"])(assets/img/[^'\"]+\.(?:svg|png|jpe?g|webp|gif|avif))\1",
-                  sub, text)
+    pattern = r"(['\"])((?:\.\./|assets/)img/[^'\"]+\.(?:svg|png|jpe?g|webp|gif|avif))\1"
+    return re.sub(pattern, sub, text)
 
 
 def expand_path_constants(js: str) -> str:
@@ -64,7 +71,8 @@ def main():
     out = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "preview.html"
     html = (ROOT / "index.html").read_text()
 
-    css = inline_assets((ROOT / "assets/css/site.css").read_text())
+    css_path = ROOT / "assets/css/site.css"
+    css = inline_assets(css_path.read_text(), base_dir=css_path.parent)
     html = html.replace(
         '<link rel="stylesheet" href="assets/css/site.css">',
         "<style>\n" + css + "\n</style>",
@@ -80,7 +88,7 @@ def main():
     html = inline_assets(html)
 
     # a bare directory constant may survive expansion; only files matter
-    left = [m for m in re.findall(r"['\"]assets/[^'\"]+['\"]", html)
+    left = [m for m in re.findall(r"['\"](?:\.\./|assets/)[^'\"]+['\"]", html)
             if not m.rstrip("'\"").endswith("/")]
     if left:
         print(f"  ! {len(left)} unresolved asset reference(s): {left[:3]}",
