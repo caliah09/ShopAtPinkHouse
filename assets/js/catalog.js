@@ -109,7 +109,7 @@
       name: 'The PH Set, Three-Piece',
       colorId: colorId,
       colorName: color.name,
-      price: 16800,
+      price: 8000,
       compareAt: null,
       currency: 'USD',
       category: 'sets',
