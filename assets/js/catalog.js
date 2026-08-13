@@ -75,10 +75,25 @@
       blurb: 'Fold-over, monogrammed' }
   ];
 
-  var SIZES = function (soldOut) {
+  /* Real Shopify variant IDs, product -> size -> numeric id. Only Pink Sugar
+     is live in Shopify so far; add a colourway here as it's created in the
+     store. When a size has an id, checkout() in site.js can build a real
+     Shopify cart permalink for it instead of just opening the storefront. */
+  var SHOPIFY_VARIANTS = {
+    'pink-sugar': {
+      xs: '47859640762499', s: '47859640795267', m: '47859640828035',
+      l: '47859640860803', xl: '47859640893571'
+    }
+  };
+
+  var SIZES = function (soldOut, shopifyIds) {
     soldOut = soldOut || [];
     return ['XS', 'S', 'M', 'L', 'XL'].map(function (s) {
-      return { id: s.toLowerCase(), label: s, available: soldOut.indexOf(s) === -1 };
+      var id = s.toLowerCase();
+      return {
+        id: id, label: s, available: soldOut.indexOf(s) === -1,
+        shopifyVariantId: (shopifyIds && shopifyIds[id]) || null
+      };
     });
   };
 
@@ -115,7 +130,7 @@
       category: 'sets',
       badge: row[1],
       colors: COLORWAYS,
-      sizes: SIZES(row[2]),
+      sizes: SIZES(row[2], SHOPIFY_VARIANTS[colorId]),
       images: { primary: color.image, hover: color.hover,
                 gallery: [color.image, color.hover] },
       details: DETAILS

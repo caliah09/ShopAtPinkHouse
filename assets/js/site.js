@@ -310,6 +310,7 @@
       var variant = window.PH.variantId(product, colorId, sizeId);
       var color = product.colors.filter(function (c) { return c.id === colorId; })[0]
                   || product.colors[0];
+      var size = product.sizes.filter(function (s) { return s.id === sizeId; })[0];
       var line = this.lines.filter(function (l) { return l.variant === variant; })[0];
       if (line) {
         line.qty += qty;
@@ -326,6 +327,7 @@
           colorName: color.name,
           sizeId: sizeId,
           sizeLabel: (sizeId || '').toUpperCase(),
+          shopifyVariantId: size && size.shopifyVariantId,
           qty: qty
         });
       }
@@ -353,15 +355,26 @@
     },
 
     /* ---- THE SEAM -------------------------------------------------------
-       Hands off to the real Shopify store. This is a same-store-only handoff
-       (it opens the storefront, not a prefilled cart) because that's all a
-       *.myshopify.com domain supports without a Storefront API token or real
-       variant IDs. Once products exist in Shopify, put each one's numeric
-       variant ID on its catalog.js entry and swap this for a cart permalink:
+       Hands off to the real Shopify store. When every line in the bag has a
+       real Shopify variant id (set in catalog.js as sizes[].shopifyVariantId,
+       via SHOPIFY_VARIANTS), this builds a cart permalink that lands the
+       shopper on Shopify with those exact items already in their cart:
          https://{domain}/cart/{variantId}:{qty},{variantId}:{qty}
-       which adds every line and lands the shopper straight on checkout. */
+       A line without a variant id (its colourway isn't in Shopify yet) can't
+       be added that way, so it falls back to just opening the storefront. */
     checkout: function () {
-      window.open('https://' + window.PH.SHOPIFY_DOMAIN, '_blank', 'noopener');
+      var domain = window.PH.SHOPIFY_DOMAIN;
+      var allLinked = this.lines.length > 0 &&
+        this.lines.every(function (l) { return l.shopifyVariantId; });
+      if (allLinked) {
+        var parts = this.lines.map(function (l) {
+          return l.shopifyVariantId + ':' + l.qty;
+        });
+        window.open('https://' + domain + '/cart/' + parts.join(','), '_blank', 'noopener');
+      } else {
+        if (this.lines.length) toast('Some items aren’t in the store yet — opening the shop');
+        window.open('https://' + domain, '_blank', 'noopener');
+      }
     },
 
     changed: function () {
