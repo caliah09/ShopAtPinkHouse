@@ -2195,6 +2195,12 @@ a { color: inherit; text-decoration: none; }
   });
 
   window.PH = window.PH || {};
+
+  /* Your Shopify store. checkout() in site.js opens this to hand off the
+     purchase — see the comment there for how to upgrade to a real prefilled
+     cart once products exist in Shopify. */
+  window.PH.SHOPIFY_DOMAIN = 'shopatpinkhouse.myshopify.com';
+
   window.PH.catalog = {
     categories: categories,
     pieces: pieces,
@@ -2573,13 +2579,15 @@ a { color: inherit; text-decoration: none; }
     },
 
     /* ---- THE SEAM -------------------------------------------------------
-       Replace the body with a real handoff, e.g.
-         fetch('/api/checkout', { method:'POST', body: JSON.stringify(Bag.lines) })
-           .then(r => r.json()).then(({ url }) => location.assign(url));
-       Line items already carry sku, variant, qty and integer-cent prices,
-       which is exactly what Stripe Checkout and the Shopify Cart API expect. */
+       Hands off to the real Shopify store. This is a same-store-only handoff
+       (it opens the storefront, not a prefilled cart) because that's all a
+       *.myshopify.com domain supports without a Storefront API token or real
+       variant IDs. Once products exist in Shopify, put each one's numeric
+       variant ID on its catalog.js entry and swap this for a cart permalink:
+         https://{domain}/cart/{variantId}:{qty},{variantId}:{qty}
+       which adds every line and lands the shopper straight on checkout. */
     checkout: function () {
-      toast('Checkout isn’t connected yet');
+      window.open('https://' + window.PH.SHOPIFY_DOMAIN, '_blank', 'noopener');
     },
 
     changed: function () {

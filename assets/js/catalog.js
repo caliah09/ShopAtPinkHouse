@@ -123,6 +123,12 @@
   });
 
   window.PH = window.PH || {};
+
+  /* Your Shopify store. checkout() in site.js opens this to hand off the
+     purchase — see the comment there for how to upgrade to a real prefilled
+     cart once products exist in Shopify. */
+  window.PH.SHOPIFY_DOMAIN = 'shopatpinkhouse.myshopify.com';
+
   window.PH.catalog = {
     categories: categories,
     pieces: pieces,
