@@ -137,13 +137,11 @@
       <svg width="24" height="24"><use href="#i-menu"/></svg>
     </button>
 
-    <!-- LOGO SLOT · header -------------------------------------------------
-         Swap the src for your logo. Transparent PNG or SVG, at least 600px
-         wide (or 3x the rendered height). Height is capped at ~52px and the
-         width flows, so square or wide lockups both sit correctly. -->
+    <!-- LOGO · header. Background knocked out by tools/prepare_assets.py so
+         the same file works here and on the dark footer. -->
     <a class="brandmark" href="#top" aria-label="ShopAtPinkHouse — home">
-      <img src="assets/img/placeholder/logo-dark.svg" alt="ShopAtPinkHouse"
-           data-slot="logo-header" width="520" height="130">
+      <img src="assets/img/brand/logo.png" alt="ShopAtPinkHouse"
+           data-slot="logo-header" width="900" height="339">
     </a>
 
     <div class="utils">
@@ -214,17 +212,17 @@
       </div>
 
       <div class="hero__media">
-        <!-- HERO IMAGE SLOT · 1400×1750 (4:5 portrait), 2800px wide for retina.
-             Full-bleed lifestyle or campaign shot. Sits inside a chrome bezel. -->
+        <!-- HERO · 4:5. Built from the master shot by tools/prepare_assets.py. -->
         <div class="bezel">
-          <img src="assets/img/placeholder/hero.svg" alt="" data-slot="hero"
-               width="1400" height="1750" fetchpriority="high">
+          <img src="assets/img/editorial/hero.webp"
+               alt="The PH Set in Pink Sugar — hoodie, halter and flare pant"
+               data-slot="hero" width="1200" height="1500" fetchpriority="high">
         </div>
 
-        <!-- HERO INSET SLOT · 700×700 square. Optional detail/crop shot. -->
+        <!-- HERO INSET · 1:1 detail crop of the halter bodice. -->
         <div class="hero__inset">
-          <img src="assets/img/placeholder/hero-inset.svg" alt="" data-slot="hero-inset"
-               width="700" height="700" loading="lazy">
+          <img src="assets/img/editorial/hero-inset.webp" alt=""
+               data-slot="hero-inset" width="700" height="700" loading="lazy">
         </div>
 
         <p class="hero__tag">New<br>season</p>
@@ -251,13 +249,13 @@
     <div class="wrap">
       <div class="shead">
         <div class="shead__text">
-          <p class="eyebrow"><svg class="decal"><use href="#i-sprig"/></svg> Shop by category</p>
-          <h2 class="display shead__title">The whole <em>house</em></h2>
+          <p class="eyebrow"><svg class="decal"><use href="#i-sprig"/></svg> What&rsquo;s in the set</p>
+          <h2 class="display shead__title">Three pieces, <em>up close</em></h2>
         </div>
         <a class="tlink" href="#shop">View everything</a>
       </div>
-      <!-- Rendered from catalog.js -> categories[] -->
-      <div class="cats" data-categories></div>
+      <!-- Rendered from catalog.js -> pieces[] -->
+      <div class="cats cats--pieces" data-pieces></div>
     </div>
   </section>
 
@@ -302,10 +300,11 @@
         </a>
       </div>
 
-      <!-- CAMPAIGN SLOT · 2400×1100 (approx 16:10). Wide editorial/campaign. -->
+      <!-- CAMPAIGN · colourway line-up, composed by tools/prepare_assets.py. -->
       <div class="campaign__media reveal">
-        <img src="assets/img/placeholder/editorial-wide.svg" alt=""
-             data-slot="campaign" width="2400" height="1100" loading="lazy">
+        <img src="assets/img/editorial/campaign.webp"
+             alt="The PH Set in Pink Sugar, Jet Polka and Leopard"
+             data-slot="campaign" width="1800" height="828" loading="lazy">
       </div>
     </div>
   </section>
@@ -316,13 +315,15 @@
   <section class="band story" id="story">
     <div class="wrap story__inner">
       <div class="story__media reveal">
-        <!-- STORY SLOT · 1200×1500 (4:5). Founder, studio or atelier shot. -->
-        <img src="assets/img/placeholder/story.svg" alt="" data-slot="story"
-             width="1200" height="1500" loading="lazy">
-        <!-- STORY INSET SLOT · 760×760 square. Detail, fabric or hands shot. -->
+        <!-- STORY · 4:5. Swap for a founder or studio shot when you have one. -->
+        <img src="assets/img/editorial/story.webp"
+             alt="The PH Set in Leopard" data-slot="story"
+             width="1000" height="1250" loading="lazy">
+        <!-- STORY INSET · 1:1 crop of the PH monogram at the waistband. -->
         <div class="story__inset">
-          <img src="assets/img/placeholder/story-inset.svg" alt="" data-slot="story-inset"
-               width="760" height="760" loading="lazy">
+          <img src="assets/img/editorial/story-inset.webp"
+               alt="PH monogram embroidered at the waistband"
+               data-slot="story-inset" width="700" height="700" loading="lazy">
         </div>
       </div>
 
@@ -360,24 +361,6 @@
     </div>
   </section>
 
-  <!-- ========================================================================
-       PRESS
-       ==================================================================== -->
-  <section class="band band--tight band--powder">
-    <div class="wrap">
-      <p class="eyebrow eyebrow--center" style="margin-bottom:2rem">
-        <svg class="decal"><use href="#i-star"/></svg> As seen in
-      </p>
-      <!-- PRESS LOGO SLOTS · ~190×56, transparent SVG/PNG, max-height 34px. -->
-      <div class="press">
-        <img src="assets/img/placeholder/press-1.svg" alt="" data-slot="press-1" loading="lazy">
-        <img src="assets/img/placeholder/press-2.svg" alt="" data-slot="press-2" loading="lazy">
-        <img src="assets/img/placeholder/press-3.svg" alt="" data-slot="press-3" loading="lazy">
-        <img src="assets/img/placeholder/press-4.svg" alt="" data-slot="press-4" loading="lazy">
-        <img src="assets/img/placeholder/press-5.svg" alt="" data-slot="press-5" loading="lazy">
-      </div>
-    </div>
-  </section>
 
   <!-- ========================================================================
        NEWSLETTER
@@ -418,9 +401,9 @@
   <div class="ribbon ribbon--thin" aria-hidden="true"></div>
   <div class="wrap footer__top">
     <div class="footer__brand">
-      <!-- LOGO SLOT · footer (light version for the dark ground) -->
-      <img src="assets/img/placeholder/logo-light.svg" alt="ShopAtPinkHouse"
-           data-slot="logo-footer" width="520" height="130" loading="lazy">
+      <!-- LOGO · footer (same transparent file; the chrome reads on black) -->
+      <img src="assets/img/brand/logo.png" alt="ShopAtPinkHouse"
+           data-slot="logo-footer" width="900" height="339" loading="lazy">
       <p>Matching sets and soft ready-to-wear, cut in limited runs and made to be worn on repeat.</p>
       <div class="socials">
         <a href="#" aria-label="Instagram"><svg><use href="#i-instagram"/></svg></a>

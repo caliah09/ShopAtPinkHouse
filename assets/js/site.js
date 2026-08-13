@@ -24,38 +24,34 @@
   /* ======================================================================
      RENDER — categories
      ====================================================================== */
-  function renderCategories() {
-    var host = $('[data-categories]');
+  /* The rail above the grid: the three pieces the set is made of, as detail
+     crops. Editorial, not a filter. */
+  function renderPieces() {
+    var host = $('[data-pieces]');
     if (!host) return;
-    host.innerHTML = catalog.categories.map(function (c) {
+    host.innerHTML = catalog.pieces.map(function (c) {
       return '' +
-        '<a class="cat" href="#shop" data-category-link="' + c.id + '">' +
-          '<img src="' + c.image + '" alt="" data-slot="category-' + c.id + '" ' +
-            'width="900" height="1200" loading="lazy">' +
+        '<a class="cat" href="#shop">' +
+          '<img src="' + c.image + '" alt="' + c.label + '" ' +
+            'data-slot="piece-' + c.id + '" width="900" height="1200" loading="lazy">' +
           '<span class="cat__label">' +
             '<strong>' + c.label + '</strong>' +
             '<span>' + c.blurb + '</span>' +
           '</span>' +
         '</a>';
     }).join('');
-
-    // Clicking a category card scrolls to the grid with that filter applied.
-    $$('[data-category-link]', host).forEach(function (el) {
-      el.addEventListener('click', function () {
-        applyFilter(el.getAttribute('data-category-link'));
-      });
-    });
   }
 
   /* ======================================================================
      RENDER — product cards
      ====================================================================== */
-  function swatchMarkup(color, i) {
+  function swatchMarkup(color, selectedId) {
     return '<button class="swatch" type="button"' +
       ' style="background-color:' + color.hex + '"' +
       (color.pattern ? ' data-pattern="' + color.pattern + '"' : '') +
       ' data-color="' + color.id + '"' +
-      ' aria-pressed="' + (i === 0 ? 'true' : 'false') + '"' +
+      ' data-image="' + color.image + '" data-hover="' + color.hover + '"' +
+      ' aria-pressed="' + (color.id === selectedId) + '"' +
       ' aria-label="' + color.name + '"></button>';
   }
 
@@ -68,8 +64,6 @@
   }
 
   function cardMarkup(p) {
-    var shown = p.colors.slice(0, 4);
-    var extra = p.colors.length - shown.length;
     return '' +
       '<article class="card" data-product-id="' + p.id + '" data-category="' + p.category + '">' +
         '<div class="card__media">' +
@@ -85,10 +79,10 @@
         '</div>' +
         '<div class="card__body">' +
           '<h3 class="card__name">' + p.name + '</h3>' +
+          '<p class="card__color" data-card-color>' + p.colorName + '</p>' +
           '<p class="card__price">' + priceMarkup(p) + '</p>' +
           '<div class="swatches">' +
-            shown.map(swatchMarkup).join('') +
-            (extra > 0 ? '<span class="swatch__more">+' + extra + '</span>' : '') +
+            p.colors.map(function (c) { return swatchMarkup(c, p.colorId); }).join('') +
           '</div>' +
         '</div>' +
       '</article>';
@@ -110,6 +104,9 @@
     var used = catalog.categories.filter(function (c) {
       return catalog.products.some(function (p) { return p.category === c.id; });
     });
+    // Nothing to filter between until a second category is stocked.
+    if (used.length < 2) { host.hidden = true; return; }
+    host.hidden = false;
     host.innerHTML =
       '<button type="button" data-filter="all" aria-pressed="true">All</button>' +
       used.map(function (c) {
@@ -147,6 +144,8 @@
     add: function (product, colorId, sizeId, qty) {
       qty = qty || 1;
       var variant = window.PH.variantId(product, colorId, sizeId);
+      var color = product.colors.filter(function (c) { return c.id === colorId; })[0]
+                  || product.colors[0];
       var line = this.lines.filter(function (l) { return l.variant === variant; })[0];
       if (line) {
         line.qty += qty;
@@ -158,9 +157,9 @@
           name: product.name,
           price: product.price,
           currency: product.currency,
-          image: product.images.primary,
+          image: color.image,
           colorId: colorId,
-          colorName: (product.colors.filter(function (c) { return c.id === colorId; })[0] || {}).name,
+          colorName: color.name,
           sizeId: sizeId,
           sizeLabel: (sizeId || '').toUpperCase(),
           qty: qty
@@ -252,12 +251,12 @@
      ====================================================================== */
   var qvState = { product: null, color: null, size: null, image: 0 };
 
-  function openQuickView(productId) {
+  function openQuickView(productId, colorId) {
     var p = catalog.products.filter(function (x) { return x.id === productId; })[0];
     if (!p) return;
     qvState = {
       product: p,
-      color: p.colors[0].id,
+      color: colorId || p.colorId,
       size: (p.sizes.filter(function (s) { return s.available; })[0] || {}).id || null,
       image: 0
     };
@@ -268,9 +267,11 @@
   function renderQuickView() {
     var p = qvState.product;
     if (!p) return;
-    var gallery = p.images.gallery && p.images.gallery.length
-      ? p.images.gallery : [p.images.primary];
-    var colorName = (p.colors.filter(function (c) { return c.id === qvState.color; })[0] || {}).name || '';
+    // Gallery follows the selected colourway, since each carries its own shots.
+    var color = p.colors.filter(function (c) { return c.id === qvState.color; })[0] || p.colors[0];
+    var gallery = [color.image, color.hover];
+    var colorName = color.name;
+    if (qvState.image >= gallery.length) qvState.image = 0;
 
     $('[data-quickview-panel]').innerHTML = '' +
       '<button class="quickview__close" type="button" data-close-quickview aria-label="Close">' +
@@ -389,7 +390,10 @@
 
     /* --- quick view --- */
     if ((el = hit('[data-action="quick-view"]'))) {
-      openQuickView(el.getAttribute('data-product-id')); return;
+      // open on whichever colourway the card is currently showing
+      openQuickView(el.getAttribute('data-product-id'),
+                    el.closest('.card').getAttribute('data-color'));
+      return;
     }
     if ((el = hit('[data-thumb]'))) {
       qvState.image = Number(el.getAttribute('data-thumb')); renderQuickView(); return;
@@ -425,11 +429,17 @@
     }
     if (hit('[data-checkout]')) { Bag.checkout(); return; }
 
-    /* --- card swatches (preview only: marks the selection) --- */
+    /* --- card swatches: swap the card's photography to that colourway --- */
     if ((el = hit('.card .swatch'))) {
+      var card = el.closest('.card');
       $$('.swatch', el.closest('.swatches')).forEach(function (s) {
         s.setAttribute('aria-pressed', String(s === el));
       });
+      $('.card__main', card).src = el.getAttribute('data-image');
+      $('.card__hover', card).src = el.getAttribute('data-hover');
+      $('[data-card-color]', card).textContent = el.getAttribute('aria-label');
+      // keep quick view in step with what the shopper is looking at
+      card.setAttribute('data-color', el.getAttribute('data-color'));
       return;
     }
 
@@ -508,7 +518,7 @@
   /* ======================================================================
      BOOT
      ====================================================================== */
-  renderCategories();
+  renderPieces();
   renderFilters();
   renderGrid();
   renderBag();

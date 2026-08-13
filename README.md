@@ -7,10 +7,11 @@ index.html                 the page
 assets/css/site.css        all styling, one token system at the top
 assets/js/catalog.js       product + category data (the only place to edit copy/prices)
 assets/js/site.js          rendering and interaction
-assets/img/placeholder/    placeholder art, one file per image slot
-tools/make_placeholders.py regenerates the placeholder art
+assets/img/source/         the master photography and logo — the only images you edit
+assets/img/                brand/ product/ piece/ editorial/ are all generated
+tools/prepare_assets.py    derives every crop and composite from the masters
 tools/build_preview.py     flattens everything into a single preview.html
-ASSETS.md                  where your photos and logo go, and at what size
+ASSETS.md                  how the imagery is derived, and what to change
 ```
 
 ## Running it
@@ -44,11 +45,22 @@ than a considered system stack.
 The page is deliberately single-theme: it does not invert for dark mode, because
 the palette is the identity. Every surface paints its own background explicitly.
 
-## Adding your assets
+## Imagery
 
-See **[ASSETS.md](ASSETS.md)**. Short version: every image is an `<img>` tagged
-with `data-slot`, pointing at a placeholder that has its own size spec drawn
-into it. Replace the file, keep the layout.
+The site runs on five studio shots of the set (one per colourway) plus the logo,
+all in `assets/img/source/`. Every crop the page uses — the hero, the campaign
+line-up, the three piece detail cards, the monogram inset — is cut from those by
+`tools/prepare_assets.py`, so there are no hand-made crops to maintain:
+
+```
+python3 tools/prepare_assets.py
+```
+
+The logo's flat backdrop is knocked out by the same script, which is why one file
+serves both the blush header and the black footer.
+
+See **[ASSETS.md](ASSETS.md)** for the crop boxes, the ratios each slot expects,
+and how to add a colourway.
 
 ## Commerce
 
@@ -60,6 +72,10 @@ a deterministic key for each (colour × size) pair. Product cards, the filter
 row, and the quick-view panel are all generated from that data, so swapping in a
 Shopify Storefront / Stripe / headless CMS response means changing the data
 source and nothing else.
+
+Each colourway carries its own photography, so the swatch row on a card swaps
+the image in place. The filter row hides itself while only one category is
+stocked and reappears the moment a second one exists.
 
 `PH.bag` in `assets/js/site.js` is a working in-memory line-item model — add,
 change quantity, remove, subtotal. It stops at exactly one place:
