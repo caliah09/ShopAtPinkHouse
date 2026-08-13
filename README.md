@@ -58,20 +58,18 @@ Two things in it are worth knowing about:
 `site.js` and emitted as SVG rects. No webfont, so nothing can silently fall
 back to the wrong face, and it stays crisp at any size.
 
-**The figure is an illustration, not photography.** It is a flat vector
-croquis, deliberately faceless, dressed per colourway from the `outfit` field
-on each entry in `COLORWAYS`. Each of the three pieces takes a hex or the
-token `'polka'` / `'leopard'`, which resolve to SVG patterns.
-
-When you have real on-body photography, set `model` on the colourway:
+**The stage shows the flat-lay** until there is on-body photography. Set
+`model` on a colourway and the stage uses that instead:
 
 ```js
 { id: 'pink-sugar', ..., model: 'assets/img/model/pink-sugar.jpg' }
 ```
 
-The stage shows the photo instead of the illustration — no other change needed.
-Shoot it 4:5 portrait on a light ground. Skin, hair and shoe colours on the
-figure are the `.cq-*` tokens in `site.css`.
+Shoot 4:5 portrait on a light ground. It falls back to the flat-lay per
+colourway, so you can add shots one at a time.
+
+An illustrated figure that wore each colourway is parked in
+`saved/outfit-figure/` — see the README there to reinstate it.
 
 ## Imagery
 

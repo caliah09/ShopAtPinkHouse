@@ -163,45 +163,13 @@
     '</a>';
   }
 
-
-  /* Dress the illustrated figure. Tokens resolve to the SVG patterns defined
-     in the markup; anything else is used as a literal colour. */
-  function paint(token) {
-    if (token === 'polka') return 'url(#ph-polka)';
-    if (token === 'leopard') return 'url(#ph-leopard)';
-    return token;
-  }
-
-  function dressCroquis(outfit) {
-    if (!outfit) return;
-    if (outfit.polka) {
-      $$('[data-polka-base]').forEach(function (el) { el.setAttribute('fill', outfit.polka.base); });
-      $$('[data-polka-dot]').forEach(function (el) { el.setAttribute('fill', outfit.polka.dot); });
-    }
-    [['hoodie', '[data-cq-hoodie]'], ['halter', '[data-cq-halter]'], ['pants', '[data-cq-pants]']]
-      .forEach(function (pair) {
-        var fill = paint(outfit[pair[0]]);
-        $$(pair[1]).forEach(function (el) { el.setAttribute('fill', fill); });
-      });
-  }
-
   function renderStage() {
     var l = looks[lookIndex];
     if (!l) return;
-    // real model photography wins when it exists; otherwise dress the figure
+    // on-body photography when a colourway has it, the flat-lay otherwise
     var img = $('[data-stage-img]');
-    var croquis = $('[data-croquis]');
-    if (l.color.model) {
-      img.src = l.color.model;
-      img.alt = l.product.name + ' in ' + l.color.name;
-      img.hidden = false;
-      croquis.setAttribute('hidden', '');
-    } else {
-      img.hidden = true;
-      croquis.removeAttribute('hidden');
-      croquis.setAttribute('aria-label', l.product.name + ' in ' + l.color.name);
-      dressCroquis(l.color.outfit);
-    }
+    img.src = l.color.model || l.product.images.primary;
+    img.alt = l.product.name + ' in ' + l.color.name;
 
     $('[data-stage-meta]').innerHTML =
       '<p class="stage__name">' + l.product.name + '</p>' +

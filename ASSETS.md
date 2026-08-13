@@ -58,23 +58,22 @@ different layout, these are the numbers to adjust.
 Every `<img>` still carries a `data-slot` attribute, so you can find any single
 image with a search for `data-slot`.
 
-## The outfit selector figure
+## On-body photography
 
-The woman on the stage is a **vector illustration**, not a photo of anyone. She
-exists so each colourway can be seen worn while you have no model photography.
+The outfit selector shows the flat-lay for now. When you have model shots, set
+`model` on the colourway in `catalog.js` and the stage uses that instead:
 
-- Her clothes come from `outfit` on each colourway in `catalog.js`
-- Her skin, hair and shoes are the `.cq-skin` / `.cq-shade` / `.cq-hair` /
-  `.cq-shoe` rules in `site.css` — change them there
-- To replace her with real photography, set `model` on a colourway to an image
-  path. Shoot 4:5 portrait on a light ground; the stage swaps automatically and
-  falls back to the illustration for any colourway you have not shot yet.
+```js
+{ id: 'pink-sugar', ..., model: 'assets/img/model/pink-sugar.jpg' }
+```
+
+**4:5 portrait, light ground.** It falls back to the flat-lay per colourway, so
+you can add them one at a time rather than all five at once.
+
+The illustrated figure is parked in `saved/outfit-figure/`.
 
 ## Still placeholder — change before this goes public
 
-- **The brand story.** "It really was a pink house", **founded 2019**, and
-  **"40k+ sets sold"** are invented. The 40k figure would be a false advertising
-  claim if published as-is.
 - **Pricing.** $168 across every colourway is a placeholder. `compareAt` is null
   everywhere — set it only when you actually run a promotion, and it renders the
   struck-through "was" price automatically.

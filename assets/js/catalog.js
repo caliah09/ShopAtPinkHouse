@@ -38,34 +38,24 @@
 
   /* The five colourways, each with its own photography. Shared by every card
      so the swatch row always shows the full range.
-     `outfit` dresses the illustrated figure in the outfit selector: each of
-     the three pieces takes a hex, or the token 'polka' / 'leopard'.
-     `model` is the slot for real on-body photography — set it and the stage
-     shows the photo instead of the illustration. */
+     `model` is the slot for on-body photography: set it to an image path and
+     the outfit selector shows that instead of the flat-lay. */
   var COLORWAYS = [
     { id: 'pink-sugar', name: 'Pink Sugar',  hex: '#F5C4D3',
       image: P + 'set-pink-sugar.webp', hover: P + 'set-pink-sugar-detail.webp',
-      model: null,
-      outfit: { hoodie: '#F3C3D2', halter: '#F8D6E1', pants: '#F3C3D2' } },
+      model: null },
     { id: 'pink-polka', name: 'Pink Polka',  hex: '#F5C4D3', pattern: 'polka',
       image: P + 'set-pink-polka.webp', hover: P + 'set-pink-polka-detail.webp',
-      model: null,
-      outfit: { hoodie: 'polka', halter: '#FFFFFF', pants: 'polka',
-                polka: { base: '#F3C3D2', dot: '#FFFFFF' } } },
+      model: null },
     { id: 'jet-polka',  name: 'Jet Polka',   hex: '#141011', pattern: 'polka',
       image: P + 'set-jet-polka.webp',  hover: P + 'set-jet-polka-detail.webp',
-      model: null,
-      outfit: { hoodie: 'polka', halter: '#FFFFFF', pants: 'polka',
-                polka: { base: '#1A1618', dot: '#FFFFFF' } } },
+      model: null },
     { id: 'jet-ivory',  name: 'Jet & Ivory', hex: '#141011',
       image: P + 'set-jet-ivory.webp',  hover: P + 'set-jet-ivory-detail.webp',
-      model: null,
-      outfit: { hoodie: '#1A1618', halter: '#FFFFFF', pants: 'polka',
-                polka: { base: '#1A1618', dot: '#FFFFFF' } } },
+      model: null },
     { id: 'leopard',    name: 'Leopard',     hex: '#B98047', pattern: 'leopard',
       image: P + 'set-leopard.webp',    hover: P + 'set-leopard-detail.webp',
-      model: null,
-      outfit: { hoodie: '#1A1618', halter: 'leopard', pants: '#1A1618' } }
+      model: null }
   ];
 
   /* Product categories. Only one is stocked today, so the filter row hides
