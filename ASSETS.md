@@ -58,6 +58,18 @@ different layout, these are the numbers to adjust.
 Every `<img>` still carries a `data-slot` attribute, so you can find any single
 image with a search for `data-slot`.
 
+## The outfit selector figure
+
+The woman on the stage is a **vector illustration**, not a photo of anyone. She
+exists so each colourway can be seen worn while you have no model photography.
+
+- Her clothes come from `outfit` on each colourway in `catalog.js`
+- Her skin, hair and shoes are the `.cq-skin` / `.cq-shade` / `.cq-hair` /
+  `.cq-shoe` rules in `site.css` — change them there
+- To replace her with real photography, set `model` on a colourway to an image
+  path. Shoot 4:5 portrait on a light ground; the stage swaps automatically and
+  falls back to the illustration for any colourway you have not shot yet.
+
 ## Still placeholder — change before this goes public
 
 - **The brand story.** "It really was a pink house", **founded 2019**, and

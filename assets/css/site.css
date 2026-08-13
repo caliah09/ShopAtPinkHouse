@@ -346,6 +346,300 @@ a { color: inherit; text-decoration: none; }
   font-family: var(--f-display); font-size: 1.5rem; font-style: italic;
 }
 
+
+/* ============================================================================
+   DRESSING ROOM — the outfit selector
+   --------------------------------------------------------------------------
+   The one loud moment on the page: a Y2K game menu. Everything after it stays
+   quiet, which is what lets this land instead of reading as noise.
+   ========================================================================== */
+.dressing {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 72% 42%, #FFFFFF 0%, #FEF4F8 34%, transparent 72%),
+    linear-gradient(168deg, #FBE3EE 0%, #F7CFE0 55%, #F9DCE6 100%);
+  padding-block: clamp(1.75rem, 3.5vw, 3rem) clamp(2rem, 4vw, 3.25rem);
+}
+.dressing__dots {
+  position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(233, 80, 141, 0.16) 1.3px, transparent 1.4px);
+  background-size: 12px 12px;
+  pointer-events: none;
+}
+.dressing__spark {
+  position: absolute; color: var(--white); pointer-events: none;
+  filter: drop-shadow(0 0 6px rgba(233, 80, 141, 0.55));
+}
+.dressing__spark--a { top: 8%;  left: 3%;   width: clamp(26px, 3vw, 44px); }
+.dressing__spark--b { top: 62%; left: 30%;  width: clamp(16px, 1.8vw, 26px); opacity: .8; }
+.dressing__spark--c { top: 16%; right: 6%;  width: clamp(20px, 2.2vw, 34px); opacity: .9; }
+@media (prefers-reduced-motion: no-preference) {
+  .dressing__spark { animation: twinkle 3.4s ease-in-out infinite; }
+  .dressing__spark--b { animation-delay: -1.1s; }
+  .dressing__spark--c { animation-delay: -2.2s; }
+}
+@keyframes twinkle {
+  0%, 100% { transform: scale(1) rotate(0deg);    opacity: .55; }
+  50%      { transform: scale(1.22) rotate(18deg); opacity: 1; }
+}
+
+.dressing__inner { position: relative; display: grid; gap: clamp(1rem, 2vw, 1.5rem); }
+
+.dressing__head {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 1rem;
+}
+
+/* ---- pixel banner --------------------------------------------------------- */
+.pixel { margin: 0; line-height: 0; }
+.pixel__svg {
+  width: clamp(230px, 34vw, 470px);
+  height: auto;
+  overflow: visible;
+}
+
+.dressing__tools { display: flex; align-items: center; gap: 0.75rem; }
+
+.searchbox { position: relative; display: flex; align-items: center; }
+.searchbox input {
+  width: clamp(150px, 20vw, 220px);
+  padding: 0.6rem 2.2rem 0.6rem 0.9rem;
+  border: 2px solid var(--pink);
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--jet);
+  font-size: var(--t-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.searchbox input::placeholder { color: var(--petal); letter-spacing: 0.16em; }
+.searchbox input::-webkit-search-cancel-button { -webkit-appearance: none; }
+.searchbox svg {
+  position: absolute; right: 0.75rem;
+  width: 15px; height: 15px; color: var(--pink); pointer-events: none;
+}
+
+.chip {
+  margin: 0;
+  display: flex; align-items: center; gap: 0.4rem;
+  padding: 0.5rem 0.9rem;
+  border: 2px solid var(--jet);
+  border-radius: 999px;
+  background: var(--white);
+  font-size: var(--t-label);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.chip .decal { width: 12px; height: 12px; color: var(--pink); }
+
+/* ---- the two panels ------------------------------------------------------- */
+.dressing__body {
+  display: grid;
+  grid-template-columns: minmax(0, 0.38fr) minmax(0, 1fr);
+  gap: clamp(0.9rem, 2vw, 1.5rem);
+  align-items: stretch;
+}
+
+/* sticker-style frame shared by both panels */
+.picker, .stage {
+  position: relative;
+  border: 3px solid var(--pink);
+  border-radius: 14px;
+  background: var(--white);
+  box-shadow: 6px 6px 0 rgba(182, 46, 99, 0.85);
+}
+
+.picker { padding: clamp(0.7rem, 1.4vw, 1rem); }
+
+.looks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.5rem, 1vw, 0.8rem);
+}
+.looks__none {
+  margin: 1rem 0 0; text-align: center;
+  font-size: var(--t-xs); color: var(--muted);
+}
+
+.look {
+  display: grid; gap: 0.4rem; padding: 0; text-align: center;
+}
+.look[hidden] { display: none; }
+
+.look__frame {
+  display: block; position: relative;
+  border: 2px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+  overflow: hidden;
+  transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease),
+              transform 0.25s var(--ease);
+}
+.look__frame img {
+  width: 100%; aspect-ratio: 4 / 5; object-fit: contain;
+  padding: 0.3rem;
+}
+.look:hover .look__frame { border-color: var(--petal); transform: translateY(-2px); }
+.look[aria-pressed="true"] .look__frame {
+  border-color: var(--pink);
+  box-shadow: 0 0 0 3px rgba(233, 80, 141, 0.28), 0 0 14px rgba(233, 80, 141, 0.5);
+}
+
+.look__name {
+  font-size: 0.625rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted);
+}
+.look[aria-pressed="true"] .look__name { color: var(--pink-deep); }
+
+.look__frame--all {
+  display: grid; place-items: center;
+  aspect-ratio: 4 / 5;
+  background: var(--powder);
+  border-style: dashed;
+}
+.look__frame--all svg { width: 46%; color: var(--pink); }
+
+/* ---- stage ---------------------------------------------------------------- */
+.stage {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas: "prev screen next" "meta meta meta";
+  align-items: center;
+  gap: clamp(0.4rem, 1vw, 0.9rem);
+  padding: clamp(0.8rem, 1.6vw, 1.4rem);
+  /* The photography is studio-on-white, so the stage is white too — that is
+     what makes the shots read as cut out instead of as pasted rectangles.
+     The pink comes from the frame, the podium and the arrows. */
+  background:
+    radial-gradient(74% 64% at 50% 46%,
+      #FFFFFF 0%, #FFFFFF 58%, #FFF7FA 82%, #FCEBF3 100%);
+}
+
+.stage__arrow {
+  grid-area: prev;
+  display: grid; place-items: center;
+  width: clamp(38px, 4vw, 52px); height: clamp(38px, 4vw, 52px);
+  border-radius: 50%;
+  background: var(--pink);
+  color: var(--white);
+  box-shadow: 0 4px 0 var(--pink-deep);
+  transition: transform 0.2s var(--ease), background 0.25s var(--ease);
+}
+.stage__arrow--next { grid-area: next; }
+.stage__arrow--prev svg { transform: rotate(180deg); }
+.stage__arrow svg { width: 46%; height: 46%; }
+.stage__arrow:hover { background: var(--pink-deep); transform: translateY(-2px); }
+.stage__arrow:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--pink-deep); }
+
+.stage__screen {
+  grid-area: screen;
+  position: relative;
+  display: grid; place-items: end center;
+  min-height: clamp(330px, 34vw, 490px);
+  padding-top: clamp(1.5rem, 2.6vw, 2.4rem);
+}
+
+.stage__gem {
+  position: absolute; top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: clamp(24px, 2.6vw, 36px);
+  filter: drop-shadow(0 4px 10px rgba(233, 80, 141, 0.55));
+}
+@media (prefers-reduced-motion: no-preference) {
+  .stage__gem { animation: bob 2.6s ease-in-out infinite; }
+}
+@keyframes bob {
+  0%, 100% { transform: translate(-50%, 0); }
+  50%      { transform: translate(-50%, -9px); }
+}
+
+/* ---- the illustrated figure -----------------------------------------------
+   Flat vector, faceless — a croquis, the way a lookbook sketch is drawn. Skin
+   and hair are tokens so they are trivial to change. */
+.croquis {
+  position: relative;
+  z-index: 1;
+  height: clamp(290px, 34vw, 450px);
+  width: auto;
+}
+.croquis[hidden] { display: none; }
+.cq-skin  { fill: #D9A583; }
+.cq-shade { fill: #C4906B; }
+.cq-hair  { fill: #3A2A22; }
+.cq-shoe  { fill: var(--pink); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .stage__screen.is-swapping .croquis { animation: dress-in 0.45s var(--ease); }
+}
+
+.stage__img {
+  position: relative;
+  z-index: 1;
+  max-height: clamp(240px, 28vw, 390px);
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  /* the shots are on white, so the stage is white behind them — the shadow is
+     what lifts the garments off it */
+  filter: drop-shadow(0 18px 22px rgba(182, 46, 99, 0.16));
+}
+
+.stage__podium {
+  position: absolute;
+  bottom: -10px;
+  left: 50%; transform: translateX(-50%);
+  z-index: 0;   /* behind the figure: she stands on it */                 /* in front, so the hem stands on the platform */
+  width: min(38%, 210px);
+  height: clamp(20px, 2.2vw, 30px);
+  border-radius: 50%;
+  background:
+    radial-gradient(62% 130% at 50% 14%, #FBD3E3 0%, #F296BC 42%, #D9689A 74%, #B62E63 100%);
+  box-shadow: 0 12px 26px -12px rgba(182, 46, 99, 0.55);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .stage__screen.is-swapping .stage__img { animation: dress-in 0.45s var(--ease); }
+}
+@keyframes dress-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.985); }
+  to   { opacity: 1; transform: none; }
+}
+
+.stage__meta {
+  grid-area: meta;
+  display: flex; align-items: center; justify-content: center;
+  flex-wrap: wrap; gap: 0.5rem 1rem;
+  padding-top: 0.9rem;
+  border-top: 2px dashed var(--line);
+  margin-top: 0.6rem;
+}
+.stage__meta p { margin: 0; }
+.stage__name { font-family: var(--f-display); font-size: 1.15rem; font-style: italic; }
+.stage__color {
+  font-size: var(--t-label); letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--pink-deep);
+}
+.stage__price { font-size: var(--t-sm); font-variant-numeric: tabular-nums; }
+.stage__meta .btn { padding: 0.75rem 1.5rem; }
+
+/* ---- footer strip --------------------------------------------------------- */
+.dressing__foot {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 1rem;
+}
+.dressing__hint {
+  margin: 0;
+  font-size: var(--t-label); letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--pink-deep);
+}
+.barcode { display: grid; gap: 2px; justify-items: center; opacity: 0.72; }
+.barcode svg { width: 96px; height: 24px; }
+.barcode span {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.5625rem; letter-spacing: 0.14em;
+}
+
 /* ============================================================================
    HERO
    ========================================================================== */
@@ -1033,6 +1327,22 @@ a { color: inherit; text-decoration: none; }
   .announce__item { white-space: nowrap; }
   /* buttons stack at this width — centre them with the rest of the column */
   .hero__actions { justify-content: center; }
+}
+
+
+@media (max-width: 900px) {
+  .dressing__body { grid-template-columns: 1fr; }
+  .dressing__head { justify-content: center; text-align: center; }
+  .dressing__tools { width: 100%; justify-content: center; }
+  .picker { order: 2; }
+  .stage { order: 1; }
+}
+@media (max-width: 640px) {
+  .looks { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .look__name { font-size: 0.5625rem; letter-spacing: 0.1em; }
+  .stage__meta { flex-direction: column; }
+  .dressing__hint { display: none; }
+  .dressing__foot { justify-content: center; }
 }
 
 /* ============================================================================

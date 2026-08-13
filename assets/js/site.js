@@ -42,6 +42,202 @@
     }).join('');
   }
 
+
+  /* ======================================================================
+     PIXEL LETTERING
+     A 5x7 bitmap font drawn as SVG rects. The arcade banner needs a real
+     pixel face and the CSP blocks font CDNs, so the letterforms ship as
+     data rather than as a download.
+     ====================================================================== */
+  var PIXEL_FONT = {
+    A: '01110,10001,10001,11111,10001,10001,10001',
+    B: '11110,10001,10001,11110,10001,10001,11110',
+    C: '01110,10001,10000,10000,10000,10001,01110',
+    D: '11110,10001,10001,10001,10001,10001,11110',
+    E: '11111,10000,10000,11110,10000,10000,11111',
+    F: '11111,10000,10000,11110,10000,10000,10000',
+    G: '01110,10001,10000,10111,10001,10001,01111',
+    H: '10001,10001,10001,11111,10001,10001,10001',
+    I: '11111,00100,00100,00100,00100,00100,11111',
+    J: '00111,00010,00010,00010,00010,10010,01100',
+    K: '10001,10010,10100,11000,10100,10010,10001',
+    L: '10000,10000,10000,10000,10000,10000,11111',
+    M: '10001,11011,10101,10101,10001,10001,10001',
+    N: '10001,11001,10101,10011,10001,10001,10001',
+    O: '01110,10001,10001,10001,10001,10001,01110',
+    P: '11110,10001,10001,11110,10000,10000,10000',
+    Q: '01110,10001,10001,10001,10101,10010,01101',
+    R: '11110,10001,10001,11110,10100,10010,10001',
+    S: '01111,10000,10000,01110,00001,00001,11110',
+    T: '11111,00100,00100,00100,00100,00100,00100',
+    U: '10001,10001,10001,10001,10001,10001,01110',
+    V: '10001,10001,10001,10001,10001,01010,00100',
+    W: '10001,10001,10001,10101,10101,11011,10001',
+    X: '10001,10001,01010,00100,01010,10001,10001',
+    Y: '10001,10001,01010,00100,00100,00100,00100',
+    Z: '11111,00001,00010,00100,01000,10000,11111'
+  };
+
+  function pixelSvg(text) {
+    var GAP = 1, SPACE = 3, H = 7;
+    var glyphs = [], x = 0, i, ch, rows;
+
+    for (i = 0; i < text.length; i++) {
+      ch = text.charAt(i).toUpperCase();
+      if (ch === ' ') { x += SPACE + GAP; continue; }
+      rows = PIXEL_FONT[ch];
+      if (!rows) { x += SPACE + GAP; continue; }
+      glyphs.push({ x: x, rows: rows.split(',') });
+      x += 5 + GAP;
+    }
+    var W = Math.max(x - GAP, 1);
+
+    function layer(dx, dy, fill) {
+      var out = '<g transform="translate(' + dx + ',' + dy + ')" fill="' + fill + '">';
+      glyphs.forEach(function (g) {
+        g.rows.forEach(function (row, ry) {
+          for (var rx = 0; rx < row.length; rx++) {
+            if (row.charAt(rx) === '1') {
+              out += '<rect x="' + (g.x + rx) + '" y="' + ry + '" width="1" height="1"/>';
+            }
+          }
+        });
+      });
+      return out + '</g>';
+    }
+
+    // stepped shadow underneath, gradient fill on top — the arcade bevel
+    return '<svg class="pixel__svg" viewBox="-1 -1 ' + (W + 3) + ' ' + (H + 3) +
+      '" shape-rendering="crispEdges" role="img" aria-hidden="true">' +
+      '<defs><linearGradient id="pxg" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0" stop-color="#FFFFFF"/>' +
+        '<stop offset=".55" stop-color="#FDEAF2"/>' +
+        '<stop offset="1" stop-color="#F5A9C8"/>' +
+      '</linearGradient></defs>' +
+      layer(2, 2, '#B62E63') +
+      layer(1, 1, '#E9508D') +
+      layer(0, 0, 'url(#pxg)') +
+      '</svg>';
+  }
+
+  function renderPixelHeadings() {
+    $$('[data-pixel]').forEach(function (el) {
+      el.insertAdjacentHTML('beforeend', pixelSvg(el.getAttribute('data-pixel')));
+    });
+  }
+
+  /* ======================================================================
+     DRESSING ROOM — outfit selector
+     Reads the same catalog as the grid: one look per colourway.
+     ====================================================================== */
+  var looks = [];
+  var lookIndex = 0;
+
+  function buildLooks() {
+    // one entry per product, since each product is a colourway of the set
+    looks = catalog.products.map(function (p) {
+      var c = p.colors.filter(function (x) { return x.id === p.colorId; })[0] || p.colors[0];
+      return { product: p, color: c };
+    });
+  }
+
+  function renderLooks() {
+    var host = $('[data-looks]');
+    if (!host) return;
+    host.innerHTML = looks.map(function (l, i) {
+      return '' +
+        '<button class="look" type="button" data-look="' + i + '"' +
+          ' data-name="' + l.color.name.toLowerCase() + '"' +
+          ' aria-pressed="' + (i === lookIndex) + '">' +
+          '<span class="look__frame">' +
+            '<img src="' + l.product.images.primary + '" alt="" loading="lazy">' +
+          '</span>' +
+          '<span class="look__name">' + l.color.name + '</span>' +
+        '</button>';
+    }).join('') +
+    '<a class="look look--all" href="#shop">' +
+      '<span class="look__frame look__frame--all">' +
+        '<svg viewBox="0 0 100 62" aria-hidden="true"><use href="#i-bow"/></svg>' +
+      '</span>' +
+      '<span class="look__name">View all</span>' +
+    '</a>';
+  }
+
+
+  /* Dress the illustrated figure. Tokens resolve to the SVG patterns defined
+     in the markup; anything else is used as a literal colour. */
+  function paint(token) {
+    if (token === 'polka') return 'url(#ph-polka)';
+    if (token === 'leopard') return 'url(#ph-leopard)';
+    return token;
+  }
+
+  function dressCroquis(outfit) {
+    if (!outfit) return;
+    if (outfit.polka) {
+      $$('[data-polka-base]').forEach(function (el) { el.setAttribute('fill', outfit.polka.base); });
+      $$('[data-polka-dot]').forEach(function (el) { el.setAttribute('fill', outfit.polka.dot); });
+    }
+    [['hoodie', '[data-cq-hoodie]'], ['halter', '[data-cq-halter]'], ['pants', '[data-cq-pants]']]
+      .forEach(function (pair) {
+        var fill = paint(outfit[pair[0]]);
+        $$(pair[1]).forEach(function (el) { el.setAttribute('fill', fill); });
+      });
+  }
+
+  function renderStage() {
+    var l = looks[lookIndex];
+    if (!l) return;
+    // real model photography wins when it exists; otherwise dress the figure
+    var img = $('[data-stage-img]');
+    var croquis = $('[data-croquis]');
+    if (l.color.model) {
+      img.src = l.color.model;
+      img.alt = l.product.name + ' in ' + l.color.name;
+      img.hidden = false;
+      croquis.setAttribute('hidden', '');
+    } else {
+      img.hidden = true;
+      croquis.removeAttribute('hidden');
+      croquis.setAttribute('aria-label', l.product.name + ' in ' + l.color.name);
+      dressCroquis(l.color.outfit);
+    }
+
+    $('[data-stage-meta]').innerHTML =
+      '<p class="stage__name">' + l.product.name + '</p>' +
+      '<p class="stage__color">' + l.color.name + '</p>' +
+      '<p class="stage__price">' + fmt(l.product.price, l.product.currency) + '</p>' +
+      '<button class="btn btn--pink" type="button" data-action="quick-view" ' +
+        'data-product-id="' + l.product.id + '">Shop this look</button>';
+
+    $$('[data-look]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(Number(b.getAttribute('data-look')) === lookIndex));
+    });
+
+    // re-trigger the dress-in animation
+    var screen = $('.stage__screen');
+    screen.classList.remove('is-swapping');
+    void screen.offsetWidth;
+    screen.classList.add('is-swapping');
+  }
+
+  function stepLook(delta) {
+    lookIndex = (lookIndex + delta + looks.length) % looks.length;
+    renderStage();
+  }
+
+  function filterLooks(term) {
+    term = (term || '').trim().toLowerCase();
+    var shown = 0;
+    $$('[data-look]').forEach(function (b) {
+      var match = !term || b.getAttribute('data-name').indexOf(term) !== -1;
+      b.hidden = !match;
+      if (match) shown++;
+    });
+    var none = $('[data-looks-none]');
+    if (none) none.hidden = !(term && shown === 0);
+  }
+
   /* ======================================================================
      RENDER — product cards
      ====================================================================== */
@@ -388,11 +584,21 @@
     if (hit('[data-open-nav]')) { openOverlay($('#mobile-nav')); return; }
     if (hit('[data-close-nav]')) { closeOverlay(); return; }
 
+    /* --- dressing room --- */
+    if ((el = hit('[data-look-step]'))) {
+      stepLook(Number(el.getAttribute('data-look-step'))); return;
+    }
+    if ((el = hit('[data-look]'))) {
+      lookIndex = Number(el.getAttribute('data-look')); renderStage(); return;
+    }
+
     /* --- quick view --- */
     if ((el = hit('[data-action="quick-view"]'))) {
-      // open on whichever colourway the card is currently showing
+      // open on whichever colourway the card is showing; the stage button
+      // lives outside the grid, so fall back to the product's own default
+      var fromCard = el.closest('.card');
       openQuickView(el.getAttribute('data-product-id'),
-                    el.closest('.card').getAttribute('data-color'));
+                    fromCard && fromCard.getAttribute('data-color'));
       return;
     }
     if ((el = hit('[data-thumb]'))) {
@@ -453,6 +659,11 @@
   });
 
   document.addEventListener('bag:change', renderBag);
+
+  var lookSearch = $('[data-look-search]');
+  if (lookSearch) {
+    lookSearch.addEventListener('input', function () { filterLooks(lookSearch.value); });
+  }
 
   /* ======================================================================
      NEWSLETTER
@@ -518,6 +729,10 @@
   /* ======================================================================
      BOOT
      ====================================================================== */
+  renderPixelHeadings();
+  buildLooks();
+  renderLooks();
+  renderStage();
   renderPieces();
   renderFilters();
   renderGrid();

@@ -45,6 +45,34 @@ than a considered system stack.
 The page is deliberately single-theme: it does not invert for dark mode, because
 the palette is the identity. Every surface paints its own background explicitly.
 
+## The outfit selector
+
+The panel at the top of the page is a Y2K game menu: pick a colourway on the
+left and it dresses the figure on the right. It renders from the same
+`catalog.js` as the product grid, so it can never drift out of step with what
+is stocked.
+
+Two things in it are worth knowing about:
+
+**The pixel banner** is drawn from a 5x7 bitmap font held as data in
+`site.js` and emitted as SVG rects. No webfont, so nothing can silently fall
+back to the wrong face, and it stays crisp at any size.
+
+**The figure is an illustration, not photography.** It is a flat vector
+croquis, deliberately faceless, dressed per colourway from the `outfit` field
+on each entry in `COLORWAYS`. Each of the three pieces takes a hex or the
+token `'polka'` / `'leopard'`, which resolve to SVG patterns.
+
+When you have real on-body photography, set `model` on the colourway:
+
+```js
+{ id: 'pink-sugar', ..., model: 'assets/img/model/pink-sugar.jpg' }
+```
+
+The stage shows the photo instead of the illustration — no other change needed.
+Shoot it 4:5 portrait on a light ground. Skin, hair and shoe colours on the
+figure are the `.cq-*` tokens in `site.css`.
+
 ## Imagery
 
 The site runs on five studio shots of the set (one per colourway) plus the logo,

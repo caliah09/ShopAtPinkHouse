@@ -179,6 +179,171 @@
   <span id="top"></span>
 
   <!-- ========================================================================
+       DRESSING ROOM — the outfit selector.
+       A Y2K game-menu moment: pick a colourway on the left, it dresses the
+       stage on the right. Rendered from the same catalog data as the grid,
+       so it never drifts out of step with what is actually stocked.
+       ==================================================================== -->
+  <section class="dressing" id="dressing">
+    <div class="dressing__dots" aria-hidden="true"></div>
+    <svg class="dressing__spark dressing__spark--a" viewBox="0 0 100 100" aria-hidden="true"><use href="#i-star"/></svg>
+    <svg class="dressing__spark dressing__spark--b" viewBox="0 0 100 100" aria-hidden="true"><use href="#i-star"/></svg>
+    <svg class="dressing__spark dressing__spark--c" viewBox="0 0 100 100" aria-hidden="true"><use href="#i-star"/></svg>
+
+    <div class="wrap dressing__inner">
+
+      <div class="dressing__head">
+        <!-- Pixel lettering is drawn from a 5x7 bitmap font in site.js, so it
+             stays crisp at any size without loading a webfont. -->
+        <h2 class="pixel" data-pixel="SELECT AN OUTFIT">
+          <span class="sr-only">Select an outfit</span>
+        </h2>
+
+        <div class="dressing__tools">
+          <label class="sr-only" for="look-search">Search colourways</label>
+          <div class="searchbox">
+            <input id="look-search" type="search" placeholder="SEARCH..."
+                   autocomplete="off" data-look-search>
+            <svg aria-hidden="true"><use href="#i-search"/></svg>
+          </div>
+          <p class="chip" aria-hidden="true">
+            <svg class="decal"><use href="#i-star"/></svg> Spring 26
+          </p>
+        </div>
+      </div>
+
+      <div class="dressing__body">
+        <!-- left: the rail of selectable looks -->
+        <div class="picker">
+          <div class="looks" data-looks role="group" aria-label="Choose a colourway"></div>
+          <p class="looks__none" data-looks-none hidden>No colourway by that name.</p>
+        </div>
+
+        <!-- right: the stage -->
+        <div class="stage">
+          <button class="stage__arrow stage__arrow--prev" type="button"
+                  data-look-step="-1" aria-label="Previous colourway">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg>
+          </button>
+
+          <div class="stage__screen">
+            <span class="stage__gem" aria-hidden="true">
+              <svg viewBox="0 0 40 44">
+                <path d="M9 2h22l9 14-20 26L0 16Z" fill="url(#gemGrad)"/>
+                <path d="M9 2h22l9 14H0Z" fill="#FFFFFF" opacity=".38"/>
+                <path d="M0 16h40l-20 26Z" fill="#000000" opacity=".08"/>
+              </svg>
+            </span>
+            <!-- The figure is an ILLUSTRATION, not photography. It exists so the
+                 panel reads as a dress-up game and so each colourway can be
+                 seen worn. The moment you have real model shots, set `model`
+                 on the colourway in catalog.js and the photo replaces her
+                 automatically — see renderStage() in site.js. -->
+            <svg class="croquis" data-croquis viewBox="0 0 240 450" role="img"
+                 aria-label="Illustration of the set worn">
+              <defs>
+                <pattern id="ph-polka" width="15" height="15" patternUnits="userSpaceOnUse">
+                  <rect data-polka-base width="15" height="15" fill="#F3C3D2"/>
+                  <circle data-polka-dot cx="4" cy="4" r="2.2" fill="#FFFFFF"/>
+                  <circle data-polka-dot cx="11.5" cy="11.5" r="2.2" fill="#FFFFFF"/>
+                </pattern>
+                <pattern id="ph-leopard" width="30" height="30" patternUnits="userSpaceOnUse">
+                  <rect width="30" height="30" fill="#C79763"/>
+                  <path d="M5 6c4-3 9 0 8 4s-8 3-9-1Z" fill="#4A3117"/>
+                  <path d="M19 3c4-1 7 2 6 5s-6 2-7-1Z" fill="#4A3117"/>
+                  <path d="M11 18c4-3 9 0 8 4s-8 3-9-1Z" fill="#4A3117"/>
+                  <path d="M24 20c3-1 6 2 5 5s-6 1-6-2Z" fill="#4A3117"/>
+                </pattern>
+              </defs>
+
+              <!-- hair, behind -->
+              <path class="cq-hair" d="M120 20c-28 0-42 20-42 44 0 22 2 40-2 62 9 5 18 7 25 7-6-24-5-45-5-59 0-17 10-28 24-28s24 11 24 28c0 14 1 35-5 59 7 0 16-2 25-7-4-22-2-40-2-62 0-24-14-44-42-44Z"/>
+
+              <!-- legs: only the shoes show; the flare covers waist to ankle -->
+              <path class="cq-shoe" d="M92 404h30l2 12c0 5-4 8-12 8h-10c-7 0-11-3-11-8Z"/>
+              <path class="cq-shoe" d="M148 404h30l1 12c0 5-4 8-11 8h-10c-8 0-12-3-12-8Z"/>
+
+              <!-- torso and arms -->
+              <path class="cq-skin" d="M92 104h56l6 52-8 56H94l-8-56Z"/>
+              <path class="cq-skin" d="M92 104c-13 5-19 16-21 29l-8 63 13 3 12-64Z"/>
+              <path class="cq-skin" d="M148 104c13 5 19 16 21 29l8 63-13 3-12-64Z"/>
+              <circle class="cq-skin" cx="70" cy="204" r="7"/>
+              <circle class="cq-skin" cx="170" cy="204" r="7"/>
+
+              <!-- neck and head -->
+              <path class="cq-shade" d="M110 78h20v20c0 6-4 9-10 9s-10-3-10-9Z"/>
+              <ellipse class="cq-skin" cx="120" cy="54" rx="21" ry="26"/>
+              <path class="cq-hair" d="M120 20c-21 0-33 13-34 31 0 6 1 11 2 14 3-15 9-24 18-27 7 11 22 15 36 13 7-1 10 5 11 14 2-3 3-8 3-14-1-18-15-31-36-31Z"/>
+
+              <!-- flare pant: legs meet at the hip, flare from the knee -->
+              <path data-cq-pants d="M96 208C100 250 104 275 105 300C100 345 92 380 86 412L118 412C118 380 119 345 119 300C119 270 119 240 120 208Z"/>
+              <path data-cq-pants d="M144 208C140 250 136 275 135 300C140 345 148 380 154 412L122 412C122 380 121 345 121 300C121 270 121 240 120 208Z"/>
+              <path data-cq-pants d="M92 190h56v20H92Z"/>
+              <path d="M92 190h56v7H92Z" fill="#000" opacity=".08"/>
+
+              <!-- halter -->
+              <path data-cq-halter d="M112 84c-1 9-5 15-11 20l5 7c5-4 10-6 14-6s9 2 14 6l5-7c-6-5-10-11-11-20h-5c0 6-1 9-3 9s-3-3-3-9Z"/>
+              <path data-cq-halter d="M100 118c7-6 14-9 20-9s13 3 20 9l-2 44c0 12-1 24-3 34h-30c-2-10-3-22-3-34Z"/>
+
+              <!-- cropped zip hoodie, worn open -->
+              <path data-cq-hoodie d="M90 102c-15 5-22 17-24 31l-9 62 22 5 13-63Z"/>
+              <path data-cq-hoodie d="M150 102c15 5 22 17 24 31l9 62-22 5-13-63Z"/>
+              <path data-cq-hoodie d="M104 96c-9 2-16 5-20 9l6 91h22l-6-52Z"/>
+              <path data-cq-hoodie d="M136 96c9 2 16 5 20 9l-6 91h-22l6-52Z"/>
+              <path data-cq-hoodie d="M100 92c6 9 14 13 20 13s14-4 20-13c7 3 12 9 14 16-9 7-21 11-34 11s-25-4-34-11c2-7 7-13 14-16Z"/>
+            </svg>
+            <!-- shown instead of the illustration once real model photography
+                 is supplied on a colourway -->
+            <img class="stage__img" data-stage-img alt="" hidden>
+            <span class="stage__podium" aria-hidden="true"></span>
+          </div>
+
+          <button class="stage__arrow stage__arrow--next" type="button"
+                  data-look-step="1" aria-label="Next colourway">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg>
+          </button>
+
+          <div class="stage__meta" data-stage-meta aria-live="polite"></div>
+        </div>
+      </div>
+
+      <div class="dressing__foot">
+        <p class="dressing__hint">Use the arrows, or pick a look from the rail</p>
+        <span class="barcode" aria-hidden="true">
+          <svg viewBox="0 0 118 30" preserveAspectRatio="none">
+            <g fill="#141011">
+              <rect x="0" y="0" width="3" height="30"/><rect x="5" y="0" width="1" height="30"/>
+              <rect x="8" y="0" width="2" height="30"/><rect x="13" y="0" width="4" height="30"/>
+              <rect x="19" y="0" width="1" height="30"/><rect x="22" y="0" width="3" height="30"/>
+              <rect x="28" y="0" width="2" height="30"/><rect x="32" y="0" width="1" height="30"/>
+              <rect x="36" y="0" width="4" height="30"/><rect x="42" y="0" width="2" height="30"/>
+              <rect x="47" y="0" width="1" height="30"/><rect x="50" y="0" width="3" height="30"/>
+              <rect x="56" y="0" width="2" height="30"/><rect x="60" y="0" width="4" height="30"/>
+              <rect x="66" y="0" width="1" height="30"/><rect x="69" y="0" width="2" height="30"/>
+              <rect x="74" y="0" width="3" height="30"/><rect x="79" y="0" width="1" height="30"/>
+              <rect x="83" y="0" width="2" height="30"/><rect x="87" y="0" width="4" height="30"/>
+              <rect x="93" y="0" width="1" height="30"/><rect x="96" y="0" width="3" height="30"/>
+              <rect x="101" y="0" width="2" height="30"/><rect x="106" y="0" width="1" height="30"/>
+              <rect x="109" y="0" width="4" height="30"/><rect x="115" y="0" width="3" height="30"/>
+            </g>
+          </svg>
+          <span>PH-SS26</span>
+        </span>
+      </div>
+    </div>
+
+    <svg width="0" height="0" aria-hidden="true">
+      <defs>
+        <linearGradient id="gemGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#FBD9E7"/>
+          <stop offset=".5" stop-color="#E9508D"/>
+          <stop offset="1" stop-color="#B62E63"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </section>
+
+  <!-- ========================================================================
        HERO
        ==================================================================== -->
   <section class="hero">
