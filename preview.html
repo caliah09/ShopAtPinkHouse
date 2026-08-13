@@ -2602,26 +2602,31 @@ a { color: inherit; text-decoration: none; }
        shopper on Shopify with those exact items already in their cart:
          https://{domain}/cart/{variantId}:{qty},{variantId}:{qty}
        A line without a variant id (its colourway isn't in Shopify yet) can't
-       be added that way, so it falls back to just opening the storefront. */
+       be added that way, so it falls back to just opening the storefront.
+
+       Same-tab, not a new one: Shopify's checkout page refuses to load in an
+       iframe (PCI/fraud-prevention, same as every real payment processor), so
+       the closest this site can get to feeling like "checkout stays on the
+       site" is a same-tab handoff instead of a popup. Brand the destination
+       itself under Shopify admin -> Settings -> Checkout -> Customize so it
+       carries the site's colours and logo rather than looking like a jump to
+       a different store. */
     checkout: function () {
       var domain = window.PH.SHOPIFY_DOMAIN;
       var allLinked = this.lines.length > 0 &&
         this.lines.every(function (l) { return l.shopifyVariantId; });
-      var url;
       if (allLinked) {
         var parts = this.lines.map(function (l) {
           return l.shopifyVariantId + ':' + l.qty;
         });
-        url = 'https://' + domain + '/cart/' + parts.join(',');
-      } else {
-        if (this.lines.length) toast('Some items aren’t in the store yet — opening the shop');
-        url = 'https://' + domain;
+        location.assign('https://' + domain + '/cart/' + parts.join(','));
+        return;
       }
-      // A popup blocker can silently swallow window.open even on a genuine
-      // click — it returns null/undefined rather than throwing. Fall back to
-      // navigating the current tab so "Checkout" never does nothing.
-      var win = window.open(url, '_blank', 'noopener');
-      if (!win) location.assign(url);
+      var url = 'https://' + domain;
+      if (!this.lines.length) { location.assign(url); return; }
+      // give the toast a moment on screen before the page unloads under it
+      toast('Some items aren’t in the store yet — opening the shop');
+      setTimeout(function () { location.assign(url); }, 900);
     },
 
     changed: function () {
