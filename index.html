@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ShopAtPinkHouse</title>
+<meta name="description" content="ShopAtPinkHouse — matching sets, soft rib knits and everyday ready-to-wear.">
+<meta name="theme-color" content="#F9DCE6">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ==========================================================================
+     ICON + DECAL SPRITE
+     Line-art decals (bow, heart, star, sprig) and UI icons. Referenced with
+     <use href="#id">, so each one is defined once and costs nothing to repeat.
+     ========================================================================== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-bow" viewBox="0 0 100 62">
+      <g fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M50 24C50 13 39 6 28 10 15 15 13 32 25 39c9 5 19-1 25-15Z"/>
+        <path d="M50 24c0-11 11-18 22-14 13 5 15 22 3 29-9 5-19-1-25-15Z"/>
+        <path d="M50 24c-4 9-6 20-8 33M50 24c4 9 6 20 8 33"/>
+        <ellipse cx="50" cy="24" rx="7.5" ry="6.5"/>
+      </g>
+    </symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24">
+      <path d="M12 20.8C5.2 15.6 2 11.8 2 8.6A5.1 5.1 0 0 1 12 6.9 5.1 5.1 0 0 1 22 8.6c0 3.2-3.2 7-10 12.2Z"
+            fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-star" viewBox="0 0 100 100">
+      <path d="M50 2c3 26 22 45 48 48-26 3-45 22-48 48-3-26-22-45-48-48C28 47 47 28 50 2Z" fill="currentColor"/>
+    </symbol>
+    <symbol id="i-sprig" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <path d="M12 22V5"/>
+        <path d="M12 9c-3 0-5-2-5-4 3 0 5 2 5 4Zm0 0c3 0 5-2 5-4-3 0-5 2-5 4Z"/>
+        <path d="M12 15c-3 0-5-2-5-4 3 0 5 2 5 4Zm0 0c3 0 5-2 5-4-3 0-5 2-5 4Z"/>
+      </g>
+    </symbol>
+    <symbol id="i-search" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+        <circle cx="11" cy="11" r="7"/><path d="m16.5 16.5 4 4"/>
+      </g>
+    </symbol>
+    <symbol id="i-user" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+        <circle cx="12" cy="8" r="4"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0"/>
+      </g>
+    </symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
+        <path d="M4.5 7.5h15l-1.2 13H5.7Z"/><path d="M8.5 10V6.8a3.5 3.5 0 0 1 7 0V10"/>
+      </g>
+    </symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+        <path d="M3 7h18M3 12h18M3 17h18"/>
+      </g>
+    </symbol>
+    <symbol id="i-close" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+        <path d="m6 6 12 12M18 6 6 18"/>
+      </g>
+    </symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></g>
+    </symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M5 12h14"/></g>
+    </symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 12h16m-6-6 6 6-6 6"/>
+      </g>
+    </symbol>
+    <symbol id="i-instagram" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/>
+        <circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/>
+      </g>
+    </symbol>
+    <symbol id="i-tiktok" viewBox="0 0 24 24">
+      <path d="M14 3h2.6a5.6 5.6 0 0 0 4.4 4.5v2.7a8.3 8.3 0 0 1-4.4-1.5v6.1a5.9 5.9 0 1 1-5.9-5.9c.3 0 .6 0 .9.1v2.8a3.1 3.1 0 1 0 2.2 3V3Z"
+            fill="currentColor"/>
+    </symbol>
+    <symbol id="i-pinterest" viewBox="0 0 24 24">
+      <path d="M12 2a10 10 0 0 0-3.6 19.3c-.1-.8-.2-2 0-2.9l1.2-5.1s-.3-.6-.3-1.5c0-1.4.8-2.5 1.9-2.5.9 0 1.3.7 1.3 1.5 0 .9-.6 2.2-.9 3.5-.2 1 .5 1.9 1.6 1.9 1.9 0 3.3-2 3.3-4.9 0-2.6-1.8-4.4-4.4-4.4-3 0-4.8 2.2-4.8 4.6 0 .9.3 1.8.8 2.3.1.1.1.2.1.3l-.3 1.1c0 .2-.1.2-.3.1-1.3-.6-2-2.4-2-3.9 0-3.2 2.3-6.1 6.7-6.1 3.5 0 6.2 2.5 6.2 5.8 0 3.5-2.2 6.3-5.3 6.3-1 0-2-.6-2.3-1.2l-.6 2.4c-.2.9-.8 2-1.2 2.6A10 10 0 1 0 12 2Z"
+            fill="currentColor"/>
+    </symbol>
+    <symbol id="i-youtube" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round">
+        <rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="m10.5 9.5 5 2.5-5 2.5Z"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ==========================================================================
+     ANNOUNCEMENT BAR
+     ========================================================================== -->
+<div class="announce">
+  <div class="announce__track" data-announce>
+    <p class="announce__item is-active">
+      <svg class="decal"><use href="#i-heart"/></svg>
+      Complimentary shipping on orders over $125
+    </p>
+    <p class="announce__item">
+      <svg class="decal"><use href="#i-star"/></svg>
+      The Set Shop — new colourways just landed
+    </p>
+    <p class="announce__item">
+      <svg class="decal"><use href="#i-heart"/></svg>
+      Free 30-day returns, always
+    </p>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     MASTHEAD
+     ========================================================================== -->
+<header class="masthead">
+  <div class="wrap masthead__inner" style="position:relative">
+    <svg class="masthead__bow" viewBox="0 0 100 62" aria-hidden="true"><use href="#i-bow"/></svg>
+
+    <nav class="nav" aria-label="Primary">
+      <a href="#top" aria-current="page">Home</a>
+      <a href="#shop">Shop</a>
+      <a href="#story">About&nbsp;Us</a>
+      <a href="#signup">Contact</a>
+    </nav>
+
+    <button class="burger" type="button" data-open-nav aria-label="Open menu">
+      <svg width="24" height="24"><use href="#i-menu"/></svg>
+    </button>
+
+    <!-- LOGO SLOT · header -------------------------------------------------
+         Swap the src for your logo. Transparent PNG or SVG, at least 600px
+         wide (or 3x the rendered height). Height is capped at ~52px and the
+         width flows, so square or wide lockups both sit correctly. -->
+    <a class="brandmark" href="#top" aria-label="ShopAtPinkHouse — home">
+      <img src="assets/img/placeholder/logo-dark.svg" alt="ShopAtPinkHouse"
+           data-slot="logo-header" width="520" height="130">
+    </a>
+
+    <div class="utils">
+      <button class="util-search" type="button" aria-label="Search">
+        <svg><use href="#i-search"/></svg>
+      </button>
+      <a href="#signup" aria-label="Account"><svg><use href="#i-user"/></svg></a>
+      <button class="bag-btn" type="button" data-open-bag aria-label="Open bag">
+        <svg><use href="#i-bag"/></svg>
+        <span class="bag-count" data-bag-count>0</span>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="ribbon" aria-hidden="true"></div>
+
+<!-- mobile drawer nav -->
+<nav class="mobile-nav" id="mobile-nav" aria-label="Mobile" aria-hidden="true">
+  <div class="mobile-nav__head">
+    <svg width="54" height="34" viewBox="0 0 100 62" style="color:var(--pink)" aria-hidden="true"><use href="#i-bow"/></svg>
+    <button type="button" data-close-nav aria-label="Close menu">
+      <svg width="24" height="24"><use href="#i-close"/></svg>
+    </button>
+  </div>
+  <ul>
+    <li><a href="#top" data-close-nav>Home</a></li>
+    <li><a href="#shop" data-close-nav>Shop</a></li>
+    <li><a href="#categories" data-close-nav>Categories</a></li>
+    <li><a href="#story" data-close-nav>About Us</a></li>
+    <li><a href="#signup" data-close-nav>Contact</a></li>
+  </ul>
+</nav>
+
+<main id="main">
+  <span id="top"></span>
+
+  <!-- ========================================================================
+       HERO
+       ==================================================================== -->
+  <section class="hero">
+    <div class="wrap hero__inner">
+      <div class="hero__type">
+        <p class="eyebrow">
+          <svg class="decal"><use href="#i-star"/></svg>
+          Spring–Summer 2026
+        </p>
+
+        <h1 class="display hero__title">
+          <span class="line">Come in.</span>
+          <span class="line"><em>Stay</em> a <span class="hero__script">season</span></span>
+        </h1>
+
+        <p class="lede">
+          Matching sets cut in brushed rib, made to be worn on repeat and washed
+          without apology. Everything softens; nothing loses its shape.
+        </p>
+
+        <div class="hero__actions">
+          <a class="btn" href="#shop">Shop new arrivals</a>
+          <a class="btn btn--ghost" href="#set-shop">The Set Shop</a>
+        </div>
+
+        <p class="hero__meta">
+          <span><svg class="decal"><use href="#i-heart"/></svg> Free shipping over $125</span>
+          <span><svg class="decal"><use href="#i-sprig"/></svg> Sizes XS–XL</span>
+          <span><svg class="decal"><use href="#i-star"/></svg> 30-day returns</span>
+        </p>
+      </div>
+
+      <div class="hero__media">
+        <!-- HERO IMAGE SLOT · 1400×1750 (4:5 portrait), 2800px wide for retina.
+             Full-bleed lifestyle or campaign shot. Sits inside a chrome bezel. -->
+        <div class="bezel">
+          <img src="assets/img/placeholder/hero.svg" alt="" data-slot="hero"
+               width="1400" height="1750" fetchpriority="high">
+        </div>
+
+        <!-- HERO INSET SLOT · 700×700 square. Optional detail/crop shot. -->
+        <div class="hero__inset">
+          <img src="assets/img/placeholder/hero-inset.svg" alt="" data-slot="hero-inset"
+               width="700" height="700" loading="lazy">
+        </div>
+
+        <p class="hero__tag">New<br>season</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- marquee -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track" data-marquee>
+      <div class="marquee__group">
+        <span>The Set Shop</span><svg class="decal"><use href="#i-star"/></svg>
+        <span>Brushed rib, 280 gsm</span><svg class="decal"><use href="#i-heart"/></svg>
+        <span>Monogram at the waist</span><svg class="decal"><use href="#i-star"/></svg>
+        <span>Sizes XS–XL</span><svg class="decal"><use href="#i-heart"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       CATEGORIES
+       ==================================================================== -->
+  <section class="band band--tight" id="categories">
+    <div class="wrap">
+      <div class="shead">
+        <div class="shead__text">
+          <p class="eyebrow"><svg class="decal"><use href="#i-sprig"/></svg> Shop by category</p>
+          <h2 class="display shead__title">The whole <em>house</em></h2>
+        </div>
+        <a class="tlink" href="#shop">View everything</a>
+      </div>
+      <!-- Rendered from catalog.js -> categories[] -->
+      <div class="cats" data-categories></div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       PRODUCT GRID  ·  new arrivals
+       ==================================================================== -->
+  <section class="band band--powder" id="shop">
+    <div class="wrap">
+      <div class="shead">
+        <div class="shead__text">
+          <p class="eyebrow"><svg class="decal"><use href="#i-star"/></svg> New arrivals</p>
+          <h2 class="display shead__title">Just off the <em>rail</em></h2>
+        </div>
+        <!-- Filters read the category list from the catalog, so adding a
+             category to the data adds a filter here automatically. -->
+        <div class="filters" data-filters role="group" aria-label="Filter by category"></div>
+      </div>
+
+      <div class="grid" data-grid></div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       CAMPAIGN BAND
+       ==================================================================== -->
+  <section class="campaign" id="set-shop">
+    <div class="campaign__dots" aria-hidden="true"></div>
+    <svg class="campaign__star campaign__star--a" viewBox="0 0 100 100" aria-hidden="true"><use href="#i-star"/></svg>
+    <svg class="campaign__star campaign__star--b" viewBox="0 0 100 100" aria-hidden="true"><use href="#i-star"/></svg>
+
+    <div class="wrap campaign__inner">
+      <div class="campaign__type reveal">
+        <p class="eyebrow">The Set Shop</p>
+        <h2 class="display campaign__title">Three pieces.<br><em class="chrome">One signature.</em></h2>
+        <p class="lede">
+          The hoodie, the halter and the flare — cut from one bolt so the colour
+          matches exactly. Wear all three, or break the set and let each piece
+          earn its keep on its own.
+        </p>
+        <a class="btn btn--light" href="#shop">
+          Shop the sets <svg width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+
+      <!-- CAMPAIGN SLOT · 2400×1100 (approx 16:10). Wide editorial/campaign. -->
+      <div class="campaign__media reveal">
+        <img src="assets/img/placeholder/editorial-wide.svg" alt=""
+             data-slot="campaign" width="2400" height="1100" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       BRAND STORY
+       ==================================================================== -->
+  <section class="band story" id="story">
+    <div class="wrap story__inner">
+      <div class="story__media reveal">
+        <!-- STORY SLOT · 1200×1500 (4:5). Founder, studio or atelier shot. -->
+        <img src="assets/img/placeholder/story.svg" alt="" data-slot="story"
+             width="1200" height="1500" loading="lazy">
+        <!-- STORY INSET SLOT · 760×760 square. Detail, fabric or hands shot. -->
+        <div class="story__inset">
+          <img src="assets/img/placeholder/story-inset.svg" alt="" data-slot="story-inset"
+               width="760" height="760" loading="lazy">
+        </div>
+      </div>
+
+      <div class="story__type reveal">
+        <p class="eyebrow"><svg class="decal"><use href="#i-bow"/></svg> Our story</p>
+        <h2 class="display story__title">It really was a <em>pink house</em></h2>
+
+        <div class="story__body">
+          <p>
+            We started in the front room of a pink house, with one sewing machine
+            and a rule we still keep: if it isn't something we'd wear four days a
+            week, it doesn't get made.
+          </p>
+          <p>
+            That's why the line looks the way it does. Brushed rib that holds its
+            shape. Waistbands that stay put. A monogram small enough to be a
+            secret. We'd rather make ten pieces you reach for than a hundred you
+            scroll past.
+          </p>
+          <p>
+            Everything is cut in limited runs, in colourways we actually wear —
+            and when a set sells out, it comes back only if it earned it.
+          </p>
+        </div>
+
+        <dl class="story__stats">
+          <div><dd>2019</dd><dt>Founded</dt></div>
+          <div><dd>40k+</dd><dt>Sets sold</dt></div>
+          <div><dd>XS–XL</dd><dt>Every style</dt></div>
+        </dl>
+
+        <p class="signature">The Pink House</p>
+        <a class="tlink" href="#shop">Shop the collection</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       PRESS
+       ==================================================================== -->
+  <section class="band band--tight band--powder">
+    <div class="wrap">
+      <p class="eyebrow eyebrow--center" style="margin-bottom:2rem">
+        <svg class="decal"><use href="#i-star"/></svg> As seen in
+      </p>
+      <!-- PRESS LOGO SLOTS · ~190×56, transparent SVG/PNG, max-height 34px. -->
+      <div class="press">
+        <img src="assets/img/placeholder/press-1.svg" alt="" data-slot="press-1" loading="lazy">
+        <img src="assets/img/placeholder/press-2.svg" alt="" data-slot="press-2" loading="lazy">
+        <img src="assets/img/placeholder/press-3.svg" alt="" data-slot="press-3" loading="lazy">
+        <img src="assets/img/placeholder/press-4.svg" alt="" data-slot="press-4" loading="lazy">
+        <img src="assets/img/placeholder/press-5.svg" alt="" data-slot="press-5" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       NEWSLETTER
+       ==================================================================== -->
+  <section class="signup halftone" id="signup">
+    <svg class="signup__bow signup__bow--a" viewBox="0 0 100 62" aria-hidden="true"><use href="#i-bow"/></svg>
+    <svg class="signup__bow signup__bow--b" viewBox="0 0 100 62" aria-hidden="true"><use href="#i-bow"/></svg>
+
+    <div class="wrap">
+      <div class="signup__inner">
+        <p class="eyebrow eyebrow--center"><svg class="decal"><use href="#i-heart"/></svg> The list</p>
+        <h2 class="display signup__title">First look, <em>first pick</em></h2>
+        <p class="lede" style="text-align:center">
+          Restocks, new colourways and the occasional early access. Roughly twice
+          a month — never more.
+        </p>
+
+        <form class="signup__form" data-signup novalidate>
+          <label class="sr-only" for="email">Email address</label>
+          <input id="email" name="email" type="email" placeholder="Email address"
+                 autocomplete="email" required>
+          <button class="btn btn--pink" type="submit">Join</button>
+        </form>
+
+        <p class="signup__note" data-signup-note role="status"></p>
+        <p class="signup__fine">
+          By joining you agree to our Privacy Policy. Unsubscribe any time.
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ==========================================================================
+     FOOTER
+     ========================================================================== -->
+<footer class="footer">
+  <div class="ribbon ribbon--thin" aria-hidden="true"></div>
+  <div class="wrap footer__top">
+    <div class="footer__brand">
+      <!-- LOGO SLOT · footer (light version for the dark ground) -->
+      <img src="assets/img/placeholder/logo-light.svg" alt="ShopAtPinkHouse"
+           data-slot="logo-footer" width="520" height="130" loading="lazy">
+      <p>Matching sets and soft ready-to-wear, cut in limited runs and made to be worn on repeat.</p>
+      <div class="socials">
+        <a href="#" aria-label="Instagram"><svg><use href="#i-instagram"/></svg></a>
+        <a href="#" aria-label="TikTok"><svg><use href="#i-tiktok"/></svg></a>
+        <a href="#" aria-label="Pinterest"><svg><use href="#i-pinterest"/></svg></a>
+        <a href="#" aria-label="YouTube"><svg><use href="#i-youtube"/></svg></a>
+      </div>
+    </div>
+
+    <div class="fcol">
+      <h3>Shop</h3>
+      <ul>
+        <li><a href="#shop">New arrivals</a></li>
+        <li><a href="#set-shop">The Set Shop</a></li>
+        <li><a href="#categories">Tops</a></li>
+        <li><a href="#categories">Bottoms</a></li>
+        <li><a href="#categories">Dresses</a></li>
+        <li><a href="#shop">Gift cards</a></li>
+      </ul>
+    </div>
+
+    <div class="fcol">
+      <h3>Client care</h3>
+      <ul>
+        <li><a href="#">Contact us</a></li>
+        <li><a href="#">Shipping</a></li>
+        <li><a href="#">Returns &amp; exchanges</a></li>
+        <li><a href="#">Size guide</a></li>
+        <li><a href="#">Fabric &amp; care</a></li>
+        <li><a href="#">Track your order</a></li>
+      </ul>
+    </div>
+
+    <div class="fcol">
+      <h3>The house</h3>
+      <ul>
+        <li><a href="#story">Our story</a></li>
+        <li><a href="#">Sustainability</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Stockists</a></li>
+        <li><a href="#">Affiliates</a></li>
+      </ul>
+    </div>
+
+    <div class="fcol">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="#">Privacy policy</a></li>
+        <li><a href="#">Terms of service</a></li>
+        <li><a href="#">Cookie preferences</a></li>
+        <li><a href="#">Accessibility</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="footer__bottom">
+      <p style="margin:0">&copy; <span data-year>2026</span> ShopAtPinkHouse. All rights reserved.</p>
+      <div class="footer__legal">
+        <span class="locale">
+          <svg width="13" height="13" style="color:var(--petal)" aria-hidden="true"><use href="#i-heart"/></svg>
+          United States · USD
+        </span>
+        <!-- Processor badges land here once checkout is connected. -->
+        <span class="footer__pay">
+          <span class="pay-chip">Visa</span>
+          <span class="pay-chip">Mastercard</span>
+          <span class="pay-chip">Amex</span>
+          <span class="pay-chip">Apple Pay</span>
+        </span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ==========================================================================
+     OVERLAYS
+     ========================================================================== -->
+<div class="scrim" data-scrim></div>
+
+<!-- Bag drawer. Holds line items only — no checkout is wired up yet. -->
+<aside class="drawer" id="bag" aria-label="Shopping bag" aria-hidden="true">
+  <div class="drawer__head">
+    <h2>Your bag <span data-bag-head></span></h2>
+    <button type="button" data-close-bag aria-label="Close bag">
+      <svg width="24" height="24"><use href="#i-close"/></svg>
+    </button>
+  </div>
+  <div class="drawer__body" data-bag-body></div>
+  <div class="drawer__foot">
+    <div class="bag-sub">
+      <span>Subtotal</span>
+      <span data-bag-subtotal>$0</span>
+    </div>
+    <button class="btn btn--block" type="button" data-checkout>Checkout</button>
+    <p class="bag-note">Shipping and taxes calculated at checkout.</p>
+  </div>
+</aside>
+
+<!-- Quick view — the product detail layout, rendered from catalog data. -->
+<div class="quickview" data-quickview role="dialog" aria-modal="true"
+     aria-label="Product quick view" aria-hidden="true">
+  <div class="quickview__panel" data-quickview-panel></div>
+</div>
+
+<div class="toast" data-toast role="status" aria-live="polite"></div>
+
+<script src="assets/js/catalog.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

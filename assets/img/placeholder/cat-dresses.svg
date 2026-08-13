@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1200" width="900" height="1200" role="img" aria-label="Dresses placeholder">
+<rect width="900" height="1200" fill="#F9DCE6"/>
+<rect x="31.5" y="31.5" width="837.0" height="1137.0" fill="none" stroke="#EBC3D2" stroke-width="4.05" stroke-dasharray="28.3 20.2"/>
+<g transform="translate(261.00,363.00) scale(1.8900)" fill="none" stroke="#E9508D" stroke-width="5.57" stroke-linecap="round" stroke-linejoin="round" opacity=".55">
+<path d="M76 42 C86 56 114 56 124 42"/>
+<path d="M76 42 L62 52 L54 84 L70 90 L74 74 L64 204 C84 214 116 214 136 204
+  L126 74 L130 90 L146 84 L138 52 L124 42"/>
+<path d="M100 56 L100 208"/>
+</g>
+<text x="450.0" y="204.0" text-anchor="middle" font-family="Futura,'Avenir Next','Century Gothic','Helvetica Neue',Arial,sans-serif" font-size="29.7" letter-spacing="5.94" fill="#141011" opacity=".75">DRESSES</text>
+<text x="450.0" y="260.4" text-anchor="middle" font-family="Futura,'Avenir Next','Century Gothic','Helvetica Neue',Arial,sans-serif" font-size="21.6" letter-spacing="2.16" fill="#E9508D">900 &#215; 1200</text>
+<text x="450.0" y="301.5" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="19.9" fill="#141011" opacity=".42">assets/img/placeholder/cat-dresses.svg</text>
+</svg>

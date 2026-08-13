@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 760" width="760" height="760" role="img" aria-label="Story inset placeholder">
+<rect width="760" height="760" fill="#FFFFFF"/>
+<rect x="26.6" y="26.6" width="706.8" height="706.8" fill="none" stroke="#EBC3D2" stroke-width="3.42" stroke-dasharray="23.9 17.1"/>
+<g transform="translate(220.40,182.10) scale(1.5960)" fill="none" stroke="#E9508D" stroke-width="5.57" stroke-linecap="round" stroke-linejoin="round" opacity=".55">
+<path d="M64 44 L136 44 L136 74 L64 74 Z"/>
+<path d="M64 74 L68 150 L58 226 L94 226 L100 128 L106 226 L142 226 L132 150
+  L136 74"/>
+<path d="M100 74 L100 128"/>
+</g>
+<text x="380.0" y="571.5" text-anchor="middle" font-family="Futura,'Avenir Next','Century Gothic','Helvetica Neue',Arial,sans-serif" font-size="25.1" letter-spacing="5.02" fill="#141011" opacity=".75">STORY INSET</text>
+<text x="380.0" y="619.2" text-anchor="middle" font-family="Futura,'Avenir Next','Century Gothic','Helvetica Neue',Arial,sans-serif" font-size="18.2" letter-spacing="1.82" fill="#E9508D">760 &#215; 760</text>
+<text x="380.0" y="653.8" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="16.8" fill="#141011" opacity=".42">assets/img/placeholder/story-inset.svg</text>
+</svg>
