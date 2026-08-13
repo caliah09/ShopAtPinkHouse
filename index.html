@@ -123,8 +123,14 @@
      MASTHEAD
      ========================================================================== -->
 <header class="masthead">
-  <div class="wrap masthead__inner" style="position:relative">
-    <svg class="masthead__bow" viewBox="0 0 100 62" aria-hidden="true"><use href="#i-bow"/></svg>
+  <div class="wrap masthead__inner">
+    <!-- LOGO · header, top-left. Background knocked out by
+         tools/prepare_assets.py so the same file works here and on the dark
+         footer. -->
+    <a class="brandmark" href="#top" aria-label="ShopAtPinkHouse — home">
+      <img src="assets/img/brand/logo.png" alt="ShopAtPinkHouse"
+           data-slot="logo-header" width="850" height="645">
+    </a>
 
     <nav class="nav" aria-label="Primary">
       <a href="#top" aria-current="page">Home</a>
@@ -136,13 +142,6 @@
     <button class="burger" type="button" data-open-nav aria-label="Open menu">
       <svg width="24" height="24"><use href="#i-menu"/></svg>
     </button>
-
-    <!-- LOGO · header. Background knocked out by tools/prepare_assets.py so
-         the same file works here and on the dark footer. -->
-    <a class="brandmark" href="#top" aria-label="ShopAtPinkHouse — home">
-      <img src="assets/img/brand/logo.png" alt="ShopAtPinkHouse"
-           data-slot="logo-header" width="900" height="339">
-    </a>
 
     <div class="utils">
       <button class="util-search" type="button" aria-label="Search">
