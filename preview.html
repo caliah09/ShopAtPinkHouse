@@ -2607,15 +2607,21 @@ a { color: inherit; text-decoration: none; }
       var domain = window.PH.SHOPIFY_DOMAIN;
       var allLinked = this.lines.length > 0 &&
         this.lines.every(function (l) { return l.shopifyVariantId; });
+      var url;
       if (allLinked) {
         var parts = this.lines.map(function (l) {
           return l.shopifyVariantId + ':' + l.qty;
         });
-        window.open('https://' + domain + '/cart/' + parts.join(','), '_blank', 'noopener');
+        url = 'https://' + domain + '/cart/' + parts.join(',');
       } else {
         if (this.lines.length) toast('Some items aren’t in the store yet — opening the shop');
-        window.open('https://' + domain, '_blank', 'noopener');
+        url = 'https://' + domain;
       }
+      // A popup blocker can silently swallow window.open even on a genuine
+      // click — it returns null/undefined rather than throwing. Fall back to
+      // navigating the current tab so "Checkout" never does nothing.
+      var win = window.open(url, '_blank', 'noopener');
+      if (!win) location.assign(url);
     },
 
     changed: function () {
