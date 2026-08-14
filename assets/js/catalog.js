@@ -50,9 +50,6 @@
     { id: 'jet-polka',  name: 'Jet Polka',   hex: '#141011', pattern: 'polka',
       image: P + 'set-jet-polka.webp',  hover: P + 'set-jet-polka-detail.webp',
       model: null },
-    { id: 'jet-ivory',  name: 'Jet & Ivory', hex: '#141011',
-      image: P + 'set-jet-ivory.webp',  hover: P + 'set-jet-ivory-detail.webp',
-      model: null },
     { id: 'leopard',    name: 'Leopard',     hex: '#B98047', pattern: 'leopard',
       image: P + 'set-leopard.webp',    hover: P + 'set-leopard-detail.webp',
       model: null }
@@ -110,7 +107,6 @@
     ['pink-sugar', 'Signature',   []],
     ['pink-polka', 'New',         ['XS']],
     ['jet-polka',  null,          []],
-    ['jet-ivory',  null,          ['XL']],
     ['leopard',    'Best seller', ['XS', 'S']]
   ];
 

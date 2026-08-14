@@ -21,12 +21,18 @@ OUT = ROOT / "assets" / "img"
 
 WHITE = (255, 255, 255)
 
-# The five colourways, in the order they appear on the site.
+# The colourways in the site's catalog, in the order they appear.
+#
+# Not included: "jet-ivory" -- its photo (still at
+# assets/img/source/set-jet-ivory.webp) is a black hoodie with a subtle dot
+# texture over black polka-dot pants, which reads as a duplicate of Jet Polka
+# at thumbnail size. Parked rather than deleted; add it back here plus a
+# matching entry in assets/js/catalog.js if it gets a name and photo that
+# actually distinguish it.
 SETS = [
     ("pink-sugar", "Pink Sugar"),
     ("pink-polka", "Pink Polka"),
     ("jet-polka",  "Jet Polka"),
-    ("jet-ivory",  "Jet & Ivory"),
     ("leopard",    "Leopard"),
 ]
 
