@@ -23,16 +23,16 @@ WHITE = (255, 255, 255)
 
 # The colourways in the site's catalog, in the order they appear.
 #
-# Not included: "jet-ivory" -- its photo (still at
-# assets/img/source/set-jet-ivory.webp) is a black hoodie with a subtle dot
-# texture over black polka-dot pants, which reads as a duplicate of Jet Polka
-# at thumbnail size. Parked rather than deleted; add it back here plus a
-# matching entry in assets/js/catalog.js if it gets a name and photo that
-# actually distinguish it.
+# "jet-ivory" (display name "Jet Solid") and "jet-polka" both have a white
+# halter and black polka-dot pants -- the only difference is a solid vs.
+# dotted hoodie, which barely reads at thumbnail size. They're deliberately
+# NOT adjacent in the grid (see SPEC in catalog.js) so shoppers aren't
+# comparing near-identical thumbnails side by side.
 SETS = [
     ("pink-sugar", "Pink Sugar"),
     ("pink-polka", "Pink Polka"),
     ("jet-polka",  "Jet Polka"),
+    ("jet-ivory",  "Jet Solid"),
     ("leopard",    "Leopard"),
 ]
 

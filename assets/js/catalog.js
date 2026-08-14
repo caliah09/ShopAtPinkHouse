@@ -50,6 +50,15 @@
     { id: 'jet-polka',  name: 'Jet Polka',   hex: '#141011', pattern: 'polka',
       image: P + 'set-jet-polka.webp',  hover: P + 'set-jet-polka-detail.webp',
       model: null },
+    /* Same white halter and polka-dot pants as Jet Polka -- the only real
+       difference is a solid (not dotted) hoodie, which barely reads at
+       thumbnail size. No 'pattern' here, so its swatch renders as a plain
+       black dot instead of Jet Polka's black-with-white-dots one; SPEC below
+       also keeps the two apart in the grid so they aren't compared side by
+       side. */
+    { id: 'jet-ivory',  name: 'Jet Solid',   hex: '#141011',
+      image: P + 'set-jet-ivory.webp',  hover: P + 'set-jet-ivory-detail.webp',
+      model: null },
     { id: 'leopard',    name: 'Leopard',     hex: '#B98047', pattern: 'leopard',
       image: P + 'set-leopard.webp',    hover: P + 'set-leopard-detail.webp',
       model: null }
@@ -103,11 +112,14 @@
   ];
 
   /* One SKU per colourway, which is how they are actually stocked. */
+  /* jet-ivory and jet-polka are kept apart here (not consecutive) so their
+     near-identical thumbnails never sit side by side in the grid. */
   var SPEC = [
     ['pink-sugar', 'Signature',   []],
     ['pink-polka', 'New',         ['XS']],
-    ['jet-polka',  null,          []],
-    ['leopard',    'Best seller', ['XS', 'S']]
+    ['jet-ivory',  null,          ['XL']],
+    ['leopard',    'Best seller', ['XS', 'S']],
+    ['jet-polka',  null,          []]
   ];
 
   var products = SPEC.map(function (row, i) {
